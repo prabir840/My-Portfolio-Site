@@ -8,19 +8,34 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
       /* Global Styles */
+      :root {
+        --primary-color: #00ffdd;
+        --primary-color-dark: #00bca5;
+        --primary-gradient: linear-gradient(to right, #00ffdd, #00c2ff);
+        --secondary-color: #ff5500;
+        --secondary-gradient: linear-gradient(to right, #ff5500, #ff9000);
+        --dark-bg: #0a0a0a;
+        --dark-bg-lighter: #151515;
+        --text-light: #ffffff;
+        --text-gray: #cccccc;
+      }
+      
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Arial", sans-serif;
+        font-family: "Poppins", sans-serif;
       }
 
       body {
-        background-color: #0a0a0a;
-        color: #ffffff;
+        background-color: var(--dark-bg);
+        color: var(--text-light);
         line-height: 1.6;
         overflow-x: hidden;
       }
@@ -70,7 +85,7 @@
         left: 0;
         width: 0;
         height: 2px;
-        background-color: #00ffdd;
+        background: var(--primary-gradient);
         transition: width 0.5s ease;
       }
 
@@ -79,7 +94,10 @@
       }
 
       .logo span {
-        color: #00ffdd;
+        color: var(--primary-color);
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .nav-links {
@@ -90,6 +108,7 @@
       .nav-links a {
         position: relative;
         transition: all 0.3s ease;
+        padding: 5px 0;
       }
 
       .nav-links a::after {
@@ -99,7 +118,7 @@
         left: 0;
         width: 0;
         height: 2px;
-        background-color: #00ffdd;
+        background: var(--primary-gradient);
         transition: width 0.3s ease;
       }
 
@@ -108,18 +127,41 @@
       }
 
       .nav-links a.active {
-        color: #00ffdd;
+        color: var(--primary-color);
       }
 
       .nav-links a.active::after {
         width: 100%;
+      }
+      
+      /* Menu hover highlight */
+      .nav-links a::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 0;
+        background-color: rgba(0, 255, 221, 0.1);
+        top: 0;
+        left: 0;
+        transition: height 0.3s ease;
+        z-index: -1;
+        border-radius: 3px;
+      }
+      
+      .nav-links a:hover::before {
+        height: 100%;
+      }
+      
+      .nav-links a.active::before {
+        height: 100%;
+        background-color: rgba(0, 255, 221, 0.2);
       }
 
       /* Purple vertical line style */
       .purple-line {
         width: 4px;
         height: 100vh;
-        background-color: #00ffdd;
+        background: var(--primary-gradient);
         position: fixed;
         right: 30px;
         top: 0;
@@ -179,7 +221,9 @@
         height: 400px;
         border-radius: 50%;
         overflow: hidden;
-        border: 4px solid #67ead6;
+        border: 4px solid transparent;
+        background: linear-gradient(var(--dark-bg), var(--dark-bg)) padding-box, 
+          var(--primary-gradient) border-box;
         box-shadow: 0 0 5px rgba(0, 255, 221, 0.7),
           0 0 10px rgba(0, 255, 221, 0.5), 0 0 15px rgba(0, 255, 221, 0.3),
           inset 0 0 5px rgba(0, 255, 221, 0.2);
@@ -302,9 +346,10 @@
       }
 
       .social-icon:hover {
-        transform: translateY(-5px);
+        transform: translateY(-5px) rotate(360deg);
         background-color: #ff5500;
         box-shadow: 0 5px 15px rgba(255, 0, 64, 0.5);
+        transition: transform 0.5s ease, background-color 0.3s ease, box-shadow 0.3s ease;
       }
 
       .social-icon::before {
@@ -327,7 +372,7 @@
       .btn {
         display: inline-block;
         padding: 12px 30px;
-        background-color: #00ffdd;
+        background: var(--primary-gradient);
         color: white;
         border-radius: 30px;
         font-weight: bold;
@@ -357,13 +402,53 @@
       }
 
       .btn:hover {
-        box-shadow: 0 0 20px rgba(60, 240, 240, 0.8);
         transform: translateY(-3px);
+        box-shadow: 0 0 20px rgba(0, 255, 221, 0.6);
       }
 
       .btn:hover::before {
         left: 100%;
-      } /* About Section */
+      }
+      
+      .btn.secondary {
+        background: var(--secondary-gradient);
+      }
+      
+      .btn.secondary:hover {
+        box-shadow: 0 0 20px rgba(255, 85, 0, 0.6);
+      }
+      
+      /* Back to top button */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: var(--primary-gradient);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 99;
+        box-shadow: 0 0 10px rgba(0, 255, 221, 0.5);
+      }
+      
+      .back-to-top.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .back-to-top:hover {
+        transform: translateY(-5px);
+      }
+
+      /* About Section */
       .about {
         padding: 80px 0;
         min-height: 100vh;
@@ -420,6 +505,12 @@
         bottom: 0;
         left: 50%;
         margin-left: -1.5px;
+        height: 0;
+        transition: height 2s ease;
+      }
+
+      .timeline.animate::after {
+        height: 100%;
       }
 
       .timeline-item {
@@ -427,6 +518,9 @@
         position: relative;
         width: calc(50% - 40px);
         margin-bottom: 60px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.9s ease, transform 0.9s ease;
       }
 
       .timeline-item:nth-child(odd) {
@@ -461,6 +555,7 @@
         right: -94px;
         color: #00ffdd;
         font-weight: bold;
+        animation: pulse 2s infinite;
       }
 
       .timeline-item:nth-child(even) .date {
@@ -484,6 +579,7 @@
         background-color: white;
         color: #0a0a0a;
       }
+
       /* Projects Section */
 
       .projects .heading {
@@ -492,35 +588,72 @@
         color: #fff;
         padding-bottom: 3rem;
       }
+      
+      .projects .heading span {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
       .projects .box-container {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
         gap: 30px;
-        max-width: 1000px;
+        max-width: 1200px;
         margin: 0 auto;
       }
 
       .projects .box {
-        background: #00ffdd;
-        border-radius: 1rem;
+        background: var(--dark-bg-lighter);
+        border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        width: 30rem;
-        transition: transform 0.3s;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        transition: transform 0.3s, box-shadow 0.3s;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        position: relative;
       }
-
+      
       .projects .box:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(60, 240, 240, 0.4);
-        background-color: white;
-        color: #0a0a0a;
+        transform: scale(1.03);
+        box-shadow: 0 10px 25px rgba(60, 240, 240, 0.3);
+      }
+      
+      .projects .box:hover .overlay {
+        opacity: 1;
       }
 
       .projects .box img {
         width: 100%;
-        height: 200px;
+        height: 220px;
         object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+      
+      .projects .box:hover img {
+        transform: scale(1.1);
+      }
+      
+      .projects .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 220px;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        display: flex;
+        align-items: flex-end;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        padding: 20px;
+      }
+      
+      .projects .overlay h4 {
+        color: white;
+        margin: 0;
+        font-size: 1.2rem;
       }
 
       .projects .content {
@@ -528,27 +661,24 @@
       }
 
       .projects .content h3 {
-        font-size: 28.8px;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
       }
 
       .projects .content p {
-        font-size: 14.4px;
+        font-size: 0.9rem;
         margin: 1rem 0;
+        color: var(--text-gray);
       }
 
       .projects .btn {
         display: inline-block;
-        padding: 0.8rem 2rem;
-        background: #1a2929b0;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 0.5rem;
-        transition: background 0.3s;
-      }
-
-      .projects .btn:hover {
-        background-color: #ff5500;
-        box-shadow: 0 0 25px rgba(255, 0, 64, 0.9);
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: background 0.3s, transform 0.3s;
+        margin-right: 10px;
       }
 
       /* Services Section */
@@ -577,6 +707,9 @@
         border-radius: 15px;
         transition: all 0.3s ease;
         transform: translateY(0);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
       }
 
       .service-card:hover {
@@ -589,10 +722,14 @@
       .service-card h3 {
         font-size: 1.8rem;
         margin-bottom: 15px;
+        position: relative;
+        z-index: 2;
       }
 
       .service-card p {
         font-size: 0.9rem;
+        position: relative;
+        z-index: 2;
       }
 
       /* Reviews Section */
@@ -680,7 +817,9 @@
       }
 
       .contact-title span {
-        color: #00ffdd;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .contact-form {
@@ -696,27 +835,53 @@
       .form-control {
         width: 100%;
         padding: 15px;
-        background-color: transparent;
-        border: 2px solid #00ffdd;
+        background-color: var(--dark-bg-lighter);
+        border: 2px solid transparent;
         color: white;
-        border-radius: 5px;
+        border-radius: 10px;
         transition: all 0.3s ease;
+        font-family: "Poppins", sans-serif;
       }
 
       .form-control:focus {
         outline: none;
-        border-color: #ff5500;
+        border-image: var(--primary-gradient) 1;
         box-shadow: 0 0 10px rgba(60, 240, 240, 0.3);
       }
-
-      .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.5);
-        transition: all 0.3s ease;
+      
+      .form-control.error {
+        border-color: #ff3333;
+      }
+      
+      .error-message {
+        color: #ff3333;
+        font-size: 0.8rem;
+        margin-top: 5px;
+        display: none;
+      }
+      
+      .form-control.error + .error-message {
+        display: block;
       }
 
-      .form-control:focus::placeholder {
-        opacity: 0;
-        transform: translateY(-10px);
+      .form-label {
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        color: rgba(255, 255, 255, 0.5);
+        transition: all 0.3s ease;
+        pointer-events: none;
+        font-size: 0.9rem;
+      }
+
+      .form-control:focus ~ .form-label,
+      .form-control:not(:placeholder-shown) ~ .form-label {
+        top: -10px;
+        left: 10px;
+        font-size: 12px;
+        color: var(--primary-color);
+        background-color: var(--dark-bg);
+        padding: 0 5px;
       }
 
       textarea.form-control {
@@ -727,15 +892,16 @@
       .send-btn {
         display: block;
         margin: 30px auto;
-        padding: 12px 30px;
-        background-color: #00ffdd;
+        padding: 15px 40px;
+        background: var(--primary-gradient);
         color: white;
         border: none;
         border-radius: 30px;
-        font-weight: bold;
+        font-weight: 600;
+        font-size: 1rem;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 0 15px rgba(60, 240, 240, 0.6);
+        box-shadow: 0 0 15px rgba(60, 240, 240, 0.4);
         position: relative;
         overflow: hidden;
       }
@@ -757,17 +923,29 @@
       }
 
       .send-btn:hover {
-        background-color: #ff5500;
-        box-shadow: 0 0 25px rgba(255, 0, 64, 0.9);
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0, 255, 221, 0.7);
       }
 
       .send-btn:hover::before {
         left: 100%;
       }
+      
+      .form-success {
+        background-color: rgba(0, 255, 0, 0.1);
+        color: #00ff00;
+        text-align: center;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: none;
+      }
 
       /* Footer */
       footer {
-        background-color: #00ffddb1;
+        background: linear-gradient(45deg, #00ffdd, #00e6c7, #00d1b3, #00bc9e, #00a88a);
+        background-size: 400% 400%;
+        animation: wave 15s ease infinite;
         padding: 30px 0;
         text-align: center;
         position: relative;
@@ -875,6 +1053,7 @@
         position: relative;
         z-index: 1;
       }
+
       /* Typing animation */
       .typing-text::after {
         content: "|";
@@ -890,22 +1069,431 @@
           opacity: 0;
         }
       }
-      .timeline-item {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.9s ease, transform 0.9s ease;
-      }
-
       .timeline-item.fade-in {
         opacity: 1;
         transform: translateY(0);
       }
+
+      /* Particles Canvas */
+      #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+      
+      /* Scroll Progress Bar */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 4px;
+        background: linear-gradient(to right, #00ffdd, #ff5500);
+        width: 0%;
+        z-index: 9999;
+        transition: width 0.2s ease;
+      }
+      
+      /* Image Zoom Effect */
+      .box img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+      
+      .box:hover img {
+        transform: scale(1.1);
+      }
+      
+      /* Timeline Line Animation */
+      .timeline::after {
+        content: "";
+        position: absolute;
+        width: 3px;
+        background-color: #00ffdd;
+        box-shadow: 0 0 10px rgba(60, 240, 240, 0.7);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -1.5px;
+        height: 0;
+        transition: height 2s ease;
+      }
+      
+      .timeline.animate::after {
+        height: 100%;
+      }
+      
+      /* Pulse Animation for Timeline Date */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      
+      .timeline-item.fade-in .date {
+        animation: pulse 2s infinite;
+      }
+      
+      /* Projects Staggered Animation */
+      .box {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+      
+      .box.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* Send Button Animation */
+      .send-btn {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .send-btn::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background-color: #ff5500;
+        transition: width 0.3s ease;
+        z-index: -1;
+      }
+      
+      .send-btn:hover::after {
+        width: 100%;
+      }
+      
+      /* Footer Wave Animation */
+      @keyframes wave {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      
+      /* Page transitions */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      section {
+        transition: opacity 0.5s ease;
+      }
+      
+      /* Preloader */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0a0a0a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+      
+      .preloader.fade-out {
+        opacity: 0;
+        visibility: hidden;
+      }
+      
+      .loader {
+        width: 100px;
+        height: 100px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        border-top-color: #00ffdd;
+        animation: spin 1s ease infinite;
+        position: relative;
+      }
+      
+      .loader::before {
+        content: "";
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border: 4px solid transparent;
+        border-bottom-color: #ff5500;
+        border-radius: 50%;
+        animation: spin 1.5s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      
+      /* Service card hover effect */
+      .service-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: translateX(-100%);
+        transition: 0.6s;
+        z-index: 0;
+      }
+      
+      .service-card:hover::before {
+        transform: translateX(100%);
+      }
+
+      /* Network visualization */
+      .network-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 30px;
+        background-color: rgba(10, 10, 10, 0.7);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+      
+      .network-node {
+        width: 30px;
+        height: 30px;
+        background: var(--dark-bg-lighter);
+        border-radius: 50%;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        font-size: 14px;
+        box-shadow: 0 0 5px rgba(0, 255, 221, 0.3);
+      }
+      
+      .network-node:hover {
+        transform: scale(1.2);
+        box-shadow: 0 0 10px rgba(0, 255, 221, 0.7);
+      }
+      
+      .network-node i {
+        transition: all 0.3s ease;
+      }
+      
+      .network-node:hover i {
+        transform: rotate(360deg);
+      }
+      
+      .network-line {
+        width: 2px;
+        height: 30px;
+        background: var(--primary-gradient);
+        opacity: 0.7;
+      }
+      
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .modal.active {
+        display: flex;
+      }
+      
+      .modal-content {
+        background-color: var(--dark-bg-lighter);
+        border-radius: 15px;
+        width: 90%;
+        max-width: 600px;
+        padding: 30px;
+        position: relative;
+        box-shadow: 0 0 20px rgba(0, 255, 221, 0.5);
+      }
+      
+      .close-modal {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--text-light);
+        transition: all 0.3s ease;
+      }
+      
+      .close-modal:hover {
+        color: var(--primary-color);
+        transform: rotate(90deg);
+      }
+      
+      .modal-title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: var(--primary-color);
+      }
+      
+      .modal-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .form-modal-group {
+        position: relative;
+      }
+      
+      .form-modal-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text-light);
+      }
+      
+      .form-modal-control {
+        width: 100%;
+        padding: 12px 15px;
+        background-color: var(--dark-bg);
+        border: 1px solid #333;
+        border-radius: 8px;
+        color: var(--text-light);
+        transition: all 0.3s ease;
+      }
+      
+      .form-modal-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 10px rgba(0, 255, 221, 0.3);
+        outline: none;
+      }
+      
+      .form-modal-control[type="file"] {
+        padding: 8px 15px;
+      }
+      
+      .form-modal-control[type="file"]::file-selector-button {
+        border: none;
+        background: var(--primary-gradient);
+        padding: 8px 16px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        margin-right: 15px;
+        transition: all 0.3s ease;
+      }
+      
+      .form-modal-control[type="file"]::file-selector-button:hover {
+        background: var(--secondary-gradient);
+      }
+      
+      .add-btn {
+        display: inline-block;
+        padding: 12px 25px;
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+        text-align: center;
+      }
+      
+      .add-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 255, 221, 0.5);
+      }
+      
+      .add-new-btn {
+        display: block;
+        margin: 30px auto;
+        padding: 12px 25px;
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        max-width: 200px;
+      }
+      
+      .add-new-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 255, 221, 0.5);
+      }
     </style>
   </head>
   <body>
+    <div class="preloader">
+      <div class="loader"></div>
+    </div>
+    <div class="scroll-progress"></div>
+    
+    <!-- Network Visualization on Left -->
+    <div class="network-container">
+      <div class="network-node"><i class="fas fa-home"></i></div>
+      <div class="network-line"></div>
+      <div class="network-node"><i class="fas fa-user"></i></div>
+      <div class="network-line"></div>
+      <div class="network-node"><i class="fas fa-graduation-cap"></i></div>
+      <div class="network-line"></div>
+      <div class="network-node"><i class="fas fa-code"></i></div>
+      <div class="network-line"></div>
+      <div class="network-node"><i class="fas fa-cogs"></i></div>
+      <div class="network-line"></div>
+      <div class="network-node"><i class="fas fa-comment"></i></div>
+      <div class="network-line"></div>
+      <div class="network-node"><i class="fas fa-envelope"></i></div>
+    </div>
+    
     <div class="purple-line"></div>
+    <a href="#" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </a>
 
-    <header id="header">
+    <header id="header" style="display: none;">
       <div class="container">
         <div class="navbar">
           <div class="logo">Prabir <span>Samanta</span></div>
@@ -923,6 +1511,7 @@
     </header>
     <!-- Home Section -->
     <section id="home" class="hero">
+      <div id="particles-js"></div>
       <div class="container">
         <div class="hero-content">
           <div class="hero-text">
@@ -992,6 +1581,7 @@
     <!-- Education Section -->
     <section id="education" class="section">
       <h2 class="edu"><span>Education</span></h2>
+      <button class="add-new-btn" id="addEducationBtn">Add Education</button>
       <div class="timeline">
         <div class="timeline-item">
           <div class="date">2021</div>
@@ -1043,123 +1633,101 @@
     <section class="projects" id="projects">
       <div class="container">
         <h1 class="heading">My <span>Projects</span></h1>
+        <button class="add-new-btn" id="addProjectBtn">Add Project</button>
         <div class="box-container">
           <div class="box">
-            <img src="./images/dice.png" alt="Project 1" />
+            <img src="./images/dice.png" alt="Dice Game Project" />
+            <div class="overlay">
+              <h4>Gaming Project</h4>
+            </div>
             <div class="content">
               <h3>Dice Game</h3>
-              <p>My first project . A dice rolling game using html and js</p>
+              <p>My first project. A dice rolling game using HTML, CSS and JavaScript with interactive elements and responsive design.</p>
               <a href="./dice.html/dice.html" class="btn">Play</a>
-              <a href="https://github.com/prabir840/prabir-252" class="btn"
-                >See</a
-              >
+              <a href="https://github.com/prabir840/prabir-252" class="btn secondary">Source</a>
             </div>
           </div>
 
           <div class="box">
-            <img src="./images/tourism.png" alt="Project 2" />
+            <img src="./images/tourism.png" alt="Tourism Website Project" />
+            <div class="overlay">
+              <h4>Full Stack Project</h4>
+            </div>
             <div class="content">
               <h3>Tourism-Website</h3>
               <p>
-                A fullstack project using html css js and php. A website and a
-                login/signup page
+                A fullstack project using HTML, CSS, JavaScript and PHP. A comprehensive tourism website with login/signup functionality.
               </p>
               <a href="./fullstackprojects/tourism.html" class="btn">View</a>
-              <a href="https://github.com/prabir840/tourism-website" class="btn"
-                >See</a
-              >
+              <a href="https://github.com/prabir840/tourism-website" class="btn secondary">Source</a>
             </div>
           </div>
           <div class="box">
-            <img src="./images/busbook.png" alt="Project 3" />
+            <img src="./images/busbook.png" alt="Bus Booking System" />
+            <div class="overlay">
+              <h4>Booking System</h4>
+            </div>
             <div class="content">
               <h3>BusBooking</h3>
               <p>
-                A fullstack project using html, css, javascript, php(xampp). A
-                busbooking website where user can book there tickets and and see
-                the routes, history, bookings, wallet balance, also a login and
-                sign up page, it connect backend with php(xampp).
+                A fullstack project with HTML, CSS, JavaScript, and PHP (XAMPP). A complete bus booking system with user accounts, history tracking, and wallet functionality.
               </p>
               <a href="./fullstackprojects/busbookingsite.html" class="btn">View</a>
-              <a href="https://github.com/prabir840/BusBooking" class="btn"
-                >See</a
-              >
+              <a href="https://github.com/prabir840/BusBooking" class="btn secondary">Source</a>
             </div>
           </div>
 
           <div class="box">
-            <img src="./images/balloon.png" alt="Project 4" />
+            <img src="./images/balloon.png" alt="Balloon Bow Blast Game" />
+            <div class="overlay">
+              <h4>Interactive Game</h4>
+            </div>
             <div class="content">
               <h3>Balloon Bow Blast</h3>
               <p>
-                Short overview of another project. Highlight key features or
-                learning outcomes.
+                An engaging balloon shooting game built with JavaScript. Features progressive difficulty levels and score tracking.
               </p>
               <a href="./baloon game/Balloon Bow .html" class="btn">Play</a>
               <a
                 href="https://github.com/prabir840/Balloon-shooting"
-                class="btn"
-                >see</a
+                class="btn secondary"
+                >Source</a
               >
             </div>
           </div>
           <div class="box">
-            <img src="./images/typinggame.png" alt="Project 5" />
+            <img src="./images/typinggame.png" alt="Typing Speed Game" />
+            <div class="overlay">
+              <h4>Skill Development</h4>
+            </div>
             <div class="content">
               <h3>Typing Speed Game</h3>
               <p>
-                Typing game speed increaser. It help to increase your typing speed from beginner to pro.
+                Typing speed improvement game. Progressively advances difficulty from beginner to professional level with detailed metrics.
               </p>
               <a href="./game/typing game by prabir.html" class="btn">Play</a>
               <a
                 href="https://github.com/prabir840/Typing-Game"
-                class="btn"
-                >see</a
+                class="btn secondary"
+                >Source</a
               >
             </div>
           </div>
           <div class="box">
-            <img src="./calculator/calculatorimage.png" alt="Project 6" />
+            <img src="./calculator/calculatorimage.png" alt="Calculator App" />
+            <div class="overlay">
+              <h4>Utility Tool</h4>
+            </div>
             <div class="content">
-              <h3>Calculator</h3>
+              <h3>Interactive Calculator</h3>
               <p>
-                Calculator project by HTML, CSS, JAVASCRIPT. Evry button have sound to increase user experience and a home button, mode button, history button which's are enhance the overall project.
+                Advanced calculator with sound feedback, mode switching, history tracking, and a modern UI for enhanced user experience.
               </p>
-              <a href="./calculator/calculator.html" class="btn">Play</a>
+              <a href="./calculator/calculator.html" class="btn">Use</a>
               <a
                 href="https://github.com/prabir840/Calculator-by-prabir"
-                class="btn"
-                >see</a
-              >
-            </div>
-          </div>
-          <div class="box">
-            <img src="" alt="Project 7" />
-            <div class="content">
-              <h3>Give a name</h3>
-              <p>
-                Give short description.
-              </p>
-              <a href="Balloon Bow .html" class="btn">Play</a>
-              <a
-                href="https://github.com/prabir840/Balloon-shooting"
-                class="btn"
-                >see</a
-              >
-            </div>
-          </div>
-          <div class="box">
-            <img src="" alt="Project 8" />
-            <div class="content">
-              <h3>Give a name</h3>
-              <p>
-                Give short description.
-              </p>
-              <a href="Balloon Bow .html" class="btn">Play</a>
-              <a
-                href="https://github.com/prabir840/Balloon-shooting"
-                class="btn"
-                >see</a
+                class="btn secondary"
+                >Source</a
               >
             </div>
           </div>
@@ -1271,24 +1839,32 @@
     <section id="contact" class="contact">
       <div class="container">
         <h2 class="contact-title">Contact <span>Me</span></h2>
-        <form class="contact-form">
+        <div class="form-success">Thank you for your message! I'll get back to you soon.</div>
+        <form class="contact-form" id="contactForm">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Full Name" />
+            <input type="text" class="form-control" placeholder="" id="name" required />
+            <label for="name" class="form-label">Full Name</label>
+            <div class="error-message">Please enter your full name</div>
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" placeholder="Email" />
+            <input type="email" class="form-control" placeholder="" id="email" required />
+            <label for="email" class="form-label">Email</label>
+            <div class="error-message">Please enter a valid email address</div>
           </div>
           <div class="form-group">
-            <input type="tel" class="form-control" placeholder="Phone Number" />
+            <input type="tel" class="form-control" placeholder="" id="phone" required />
+            <label for="phone" class="form-label">Phone Number</label>
+            <div class="error-message">Please enter a valid phone number</div>
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Subject" />
+            <input type="text" class="form-control" placeholder="" id="subject" required />
+            <label for="subject" class="form-label">Subject</label>
+            <div class="error-message">Please enter a subject</div>
           </div>
           <div class="form-group">
-            <textarea
-              class="form-control"
-              placeholder="Your Message"
-            ></textarea>
+            <textarea class="form-control" placeholder="" id="message" required></textarea>
+            <label for="message" class="form-label">Your Message</label>
+            <div class="error-message">Please enter your message</div>
           </div>
           <button type="submit" class="send-btn">Send Message</button>
         </form>
@@ -1327,9 +1903,140 @@
       </div>
     </footer>
 
+    <!-- Add Education Modal -->
+    <div class="modal" id="educationModal">
+      <div class="modal-content">
+        <span class="close-modal" id="closeEducationModal">&times;</span>
+        <h2 class="modal-title">Add New Education</h2>
+        <form class="modal-form" id="educationForm">
+          <div class="form-modal-group">
+            <label for="educationTitle" class="form-modal-label">Education Title</label>
+            <input type="text" id="educationTitle" class="form-modal-control" required>
+          </div>
+          <div class="form-modal-group">
+            <label for="educationDate" class="form-modal-label">Year/Date</label>
+            <input type="text" id="educationDate" class="form-modal-control" required>
+          </div>
+          <div class="form-modal-group">
+            <label for="educationDescription" class="form-modal-label">Description</label>
+            <textarea id="educationDescription" class="form-modal-control" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="add-btn">Add Education</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Add Project Modal -->
+    <div class="modal" id="projectModal">
+      <div class="modal-content">
+        <span class="close-modal" id="closeProjectModal">&times;</span>
+        <h2 class="modal-title">Add New Project</h2>
+        <form class="modal-form" id="projectForm">
+          <div class="form-modal-group">
+            <label for="projectName" class="form-modal-label">Project Name</label>
+            <input type="text" id="projectName" class="form-modal-control" required>
+          </div>
+          <div class="form-modal-group">
+            <label for="projectImage" class="form-modal-label">Project Image</label>
+            <input type="file" id="projectImage" class="form-modal-control" accept="image/*" required>
+            <small style="color: var(--text-gray); display: block; margin-top: 5px;">Choose an image for your project</small>
+          </div>
+          <div class="form-modal-group">
+            <label for="projectDescription" class="form-modal-label">Description</label>
+            <textarea id="projectDescription" class="form-modal-control" rows="4" required></textarea>
+          </div>
+          <div class="form-modal-group">
+            <label for="projectPath" class="form-modal-label">Project URL/Path</label>
+            <input type="text" id="projectPath" class="form-modal-control" required>
+          </div>
+          <div class="form-modal-group">
+            <label for="projectSource" class="form-modal-label">Source Code URL</label>
+            <input type="text" id="projectSource" class="form-modal-control" required>
+          </div>
+          <div class="form-modal-group">
+            <label for="projectType" class="form-modal-label">Project Type</label>
+            <input type="text" id="projectType" class="form-modal-control" required placeholder="e.g. Web App, Game, etc.">
+          </div>
+          <button type="submit" class="add-btn">Add Project</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // Preloader
+        setTimeout(function() {
+          document.querySelector('.preloader').classList.add('fade-out');
+        }, 1500);
+        
+        // Initialize particles.js
+        particlesJS("particles-js", {
+          particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: "#00ffdd" },
+            shape: {
+              type: "circle",
+              stroke: { width: 0, color: "#000000" },
+              polygon: { nb_sides: 5 },
+            },
+            opacity: {
+              value: 0.5,
+              random: false,
+              anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
+            },
+            size: {
+              value: 3,
+              random: true,
+              anim: { enable: false, speed: 40, size_min: 0.1, sync: false }
+            },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: "#00ffdd",
+              opacity: 0.4,
+              width: 1
+            },
+            move: {
+              enable: true,
+              speed: 6,
+              direction: "none",
+              random: false,
+              straight: false,
+              out_mode: "out",
+              bounce: false,
+              attract: { enable: false, rotateX: 600, rotateY: 1200 }
+            }
+          },
+          interactivity: {
+            detect_on: "canvas",
+            events: {
+              onhover: { enable: true, mode: "repulse" },
+              onclick: { enable: true, mode: "push" },
+              resize: true
+            },
+            modes: {
+              grab: { distance: 400, line_linked: { opacity: 1 } },
+              bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+              repulse: { distance: 200, duration: 0.4 },
+              push: { particles_nb: 4 },
+              remove: { particles_nb: 2 }
+            }
+          },
+          retina_detect: true
+        });
+
+        // Scroll progress bar
+        window.addEventListener("scroll", function() {
+          const scrollTop = window.scrollY;
+          const docHeight = document.body.offsetHeight - window.innerHeight;
+          const scrollPercent = (scrollTop / docHeight) * 100;
+          document.querySelector(".scroll-progress").style.width = scrollPercent + "%";
+        });
+
+        // Timeline items animation
         const timelineItems = document.querySelectorAll(".timeline-item");
+        const timeline = document.querySelector(".timeline");
 
         const fadeInObserver = new IntersectionObserver(
           (entries, observer) => {
@@ -1344,165 +2051,448 @@
         );
 
         timelineItems.forEach((item) => fadeInObserver.observe(item));
-      });
-
-      // Typing animation
-      const typingTextElement = document.querySelector(".typing-text");
-      const typingWords = ["Prabir", "Creative", "Designer", "Developer"];
-      let wordIndex = 0;
-      let charIndex = 0;
-      let isDeleting = false;
-      let typingDelay = 150;
-
-      function typeEffect() {
-        const currentWord = typingWords[wordIndex];
-
-        if (isDeleting) {
-          typingTextElement.textContent = currentWord.substring(
-            0,
-            charIndex - 1
-          );
-          charIndex--;
-          typingDelay = 50;
-        } else {
-          typingTextElement.textContent = currentWord.substring(
-            0,
-            charIndex + 1
-          );
-          charIndex++;
-          typingDelay = 150;
-        }
-
-        if (!isDeleting && charIndex === currentWord.length) {
-          isDeleting = true;
-          typingDelay = 1000; // Pause at the end
-        } else if (isDeleting && charIndex === 0) {
-          isDeleting = false;
-          wordIndex = (wordIndex + 1) % typingWords.length;
-          typingDelay = 500; // Pause before typing next word
-        }
-
-        setTimeout(typeEffect, typingDelay);
-      }
-
-      // Start typing effect
-      setTimeout(typeEffect, 1000);
-
-      // Sticky header
-      window.addEventListener("scroll", function () {
-        const header = document.getElementById("header");
-        if (window.scrollY > 100) {
-          header.classList.add("sticky");
-        } else {
-          header.classList.remove("sticky");
-        }
-      });
-
-      // Animate elements on scroll
-      const animateOnScroll = function () {
-        const serviceCards = document.querySelectorAll(".service-card");
-        const reviewsCards = document.querySelectorAll(".reviews-card");
-
-        // Check service cards
-        serviceCards.forEach((card, index) => {
-          const cardTop = card.getBoundingClientRect().top;
-          const windowHeight = window.innerHeight;
-
-          if (cardTop < windowHeight - 100) {
-            setTimeout(() => {
-              card.style.opacity = "1";
-              card.style.transform = "translateY(0)";
-            }, index * 200);
-          }
-        });
-
-        // Apply initial styles to services before animation
-        serviceCards.forEach((card) => {
-          card.style.opacity = "0";
-          card.style.transform = "translateY(50px)";
-          card.style.transition = "all 0.5s ease";
-        });
-
-        // Check reviews cards
-        reviewsCards.forEach((card, index) => {
-          const cardTop = card.getBoundingClientRect().top;
-          const windowHeight = window.innerHeight;
-
-          if (cardTop < windowHeight - 100) {
-            setTimeout(() => {
-              card.style.opacity = "1";
-              card.style.transform = "scale(1)";
-            }, index * 200);
-          }
-        });
-
-        // Apply initial styles to Reviews before animation
-        reviewsCards.forEach((card) => {
-          if (!card.classList.contains("active")) {
-            card.style.opacity = "0";
-            card.style.transform = "scale(0.8)";
-            card.style.transition = "all 0.5s ease";
-          }
-        });
-      };
-
-      // Run on load and scroll
-      window.addEventListener("load", animateOnScroll);
-      window.addEventListener("scroll", animateOnScroll);
-
-      // Smooth scrolling for navigation links
-      document
-        .querySelectorAll(".nav-links a, .btn, .footer-links a")
-        .forEach((link) => {
-          link.addEventListener("click", function (e) {
-            const href = this.getAttribute("href");
-
-            if (href.startsWith("#") && href !== "#") {
-              e.preventDefault();
-              const targetSection = document.querySelector(href);
-
-              if (targetSection) {
-                window.scrollTo({
-                  top: targetSection.offsetTop - 100,
-                  behavior: "smooth",
-                });
+        
+        // Timeline line animation
+        const timelineObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("animate");
               }
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        timelineObserver.observe(timeline);
+        
+        // Project box animations with staggered delay
+        const projectBoxes = document.querySelectorAll(".projects .box");
+        
+        const projectObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  entry.target.classList.add("animate");
+                }, index * 150); // Consistent staggered delay for all boxes
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        projectBoxes.forEach((box) => projectObserver.observe(box));
 
-              // Update active link
-              document.querySelectorAll(".nav-links a").forEach((navLink) => {
-                navLink.classList.remove("active");
-              });
-              this.classList.add("active");
+        // Typing animation
+        const typingTextElement = document.querySelector(".typing-text");
+        const typingWords = ["Prabir", "Creative", "Designer", "Developer"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingDelay = 150;
+
+        function typeEffect() {
+          const currentWord = typingWords[wordIndex];
+
+          if (isDeleting) {
+            typingTextElement.textContent = currentWord.substring(
+              0,
+              charIndex - 1
+            );
+            charIndex--;
+            typingDelay = 50;
+          } else {
+            typingTextElement.textContent = currentWord.substring(
+              0,
+              charIndex + 1
+            );
+            charIndex++;
+            typingDelay = 150;
+          }
+
+          if (!isDeleting && charIndex === currentWord.length) {
+            isDeleting = true;
+            typingDelay = 1000; // Pause at the end
+          } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            wordIndex = (wordIndex + 1) % typingWords.length;
+            typingDelay = 500; // Pause before typing next word
+          }
+
+          setTimeout(typeEffect, typingDelay);
+        }
+
+        // Start typing effect
+        setTimeout(typeEffect, 1000);
+
+        // Sticky header
+        window.addEventListener("scroll", function () {
+          const header = document.getElementById("header");
+          if (window.scrollY > 100) {
+            header.classList.add("sticky");
+          } else {
+            header.classList.remove("sticky");
+          }
+        });
+
+        // Animate elements on scroll
+        const animateOnScroll = function () {
+          const serviceCards = document.querySelectorAll(".service-card");
+          const reviewsCards = document.querySelectorAll(".reviews-card");
+
+          // Check service cards
+          serviceCards.forEach((card, index) => {
+            const cardTop = card.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (cardTop < windowHeight - 100) {
+              setTimeout(() => {
+                card.style.opacity = "1";
+                card.style.transform = "translateY(0)";
+              }, index * 200);
+            }
+          });
+
+          // Apply initial styles to services before animation
+          serviceCards.forEach((card) => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(50px)";
+            card.style.transition = "all 0.5s ease";
+          });
+
+          // Check reviews cards
+          reviewsCards.forEach((card, index) => {
+            const cardTop = card.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (cardTop < windowHeight - 100) {
+              setTimeout(() => {
+                card.style.opacity = "1";
+                card.style.transform = "scale(1)";
+              }, index * 200);
+            }
+          });
+
+          // Apply initial styles to Reviews before animation
+          reviewsCards.forEach((card) => {
+            if (!card.classList.contains("active")) {
+              card.style.opacity = "0";
+              card.style.transform = "scale(0.8)";
+              card.style.transition = "all 0.5s ease";
+            }
+          });
+        };
+
+        // Run on load and scroll
+        window.addEventListener("load", animateOnScroll);
+        window.addEventListener("scroll", animateOnScroll);
+
+        // Smooth scrolling for navigation links
+        document
+          .querySelectorAll(".nav-links a, .btn, .footer-links a")
+          .forEach((link) => {
+            link.addEventListener("click", function (e) {
+              const href = this.getAttribute("href");
+
+              if (href.startsWith("#") && href !== "#") {
+                e.preventDefault();
+                const targetSection = document.querySelector(href);
+
+                if (targetSection) {
+                  window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: "smooth",
+                  });
+                }
+
+                // Update active link
+                document.querySelectorAll(".nav-links a").forEach((navLink) => {
+                  navLink.classList.remove("active");
+                });
+                this.classList.add("active");
+              }
+            });
+          });
+
+        // Update active navigation based on scroll position
+        window.addEventListener("scroll", function () {
+          const sections = document.querySelectorAll("section");
+          const navLinks = document.querySelectorAll(".nav-links a");
+
+          let currentSection = "";
+
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+
+            if (window.scrollY >= sectionTop - 200) {
+              currentSection = section.getAttribute("id");
+            }
+          });
+
+          navLinks.forEach((link) => {
+            link.classList.remove("active");
+            if (link.getAttribute("href") === `#${currentSection}`) {
+              link.classList.add("active");
             }
           });
         });
-
-      // Update active navigation based on scroll position
-      window.addEventListener("scroll", function () {
-        const sections = document.querySelectorAll("section");
-        const navLinks = document.querySelectorAll(".nav-links a");
-
-        let currentSection = "";
-
-        sections.forEach((section) => {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.clientHeight;
-
-          if (window.scrollY >= sectionTop - 200) {
-            currentSection = section.getAttribute("id");
+        
+        // Add click event listener to the logo div
+        document.querySelector(".logo").addEventListener("click", function () {
+          window.location.href = "#home"; // Redirect to the home page
+        });
+        
+        // About section parallax effect
+        const aboutImage = document.querySelector("#about .hero-img");
+        window.addEventListener("scroll", function() {
+          const scrollPosition = window.scrollY;
+          const aboutSection = document.querySelector("#about");
+          const aboutTop = aboutSection.offsetTop;
+          const aboutHeight = aboutSection.offsetHeight;
+          
+          if (scrollPosition > aboutTop - window.innerHeight && 
+              scrollPosition < aboutTop + aboutHeight) {
+            const parallaxValue = (scrollPosition - aboutTop + window.innerHeight) * 0.1;
+            aboutImage.style.transform = `translateY(${parallaxValue}px) scale(${1 + parallaxValue/1000})`;
           }
         });
 
-        navLinks.forEach((link) => {
-          link.classList.remove("active");
-          if (link.getAttribute("href") === `#${currentSection}`) {
-            link.classList.add("active");
+        // Back to top button
+        const backToTopButton = document.querySelector(".back-to-top");
+        
+        window.addEventListener("scroll", function() {
+          if (window.scrollY > 300) {
+            backToTopButton.classList.add("active");
+          } else {
+            backToTopButton.classList.remove("active");
           }
         });
-      });
-      // Add click event listener to the logo div
-      document.querySelector(".logo").addEventListener("click", function () {
-        window.location.href = "#home"; // Redirect to the home page
+        
+        backToTopButton.addEventListener("click", function(e) {
+          e.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        });
+
+        // Form validation
+        const contactForm = document.getElementById("contactForm");
+        
+        if (contactForm) {
+          contactForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            let isValid = true;
+            const formElements = contactForm.querySelectorAll(".form-control");
+            
+            formElements.forEach(element => {
+              if (element.hasAttribute("required") && !element.value.trim()) {
+                element.classList.add("error");
+                isValid = false;
+              } else if (element.id === "email" && !validateEmail(element.value)) {
+                element.classList.add("error");
+                isValid = false;
+              } else if (element.id === "phone" && !validatePhone(element.value)) {
+                element.classList.add("error");
+                isValid = false;
+              } else {
+                element.classList.remove("error");
+              }
+            });
+            
+            if (isValid) {
+              // Show success message
+              document.querySelector(".form-success").style.display = "block";
+              
+              // Reset form
+              contactForm.reset();
+              
+              // Hide success message after 5 seconds
+              setTimeout(function() {
+                document.querySelector(".form-success").style.display = "none";
+              }, 5000);
+            }
+          });
+          
+          // Clear errors on input
+          contactForm.querySelectorAll(".form-control").forEach(element => {
+            element.addEventListener("input", function() {
+              this.classList.remove("error");
+            });
+          });
+        }
+        
+        function validateEmail(email) {
+          const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(String(email).toLowerCase());
+        }
+        
+        function validatePhone(phone) {
+          const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+          return re.test(String(phone));
+        }
+
+        // Education Modal Functions
+        const addEducationBtn = document.getElementById("addEducationBtn");
+        const educationModal = document.getElementById("educationModal");
+        const closeEducationModal = document.getElementById("closeEducationModal");
+        const educationForm = document.getElementById("educationForm");
+        const timelineContainer = document.querySelector(".timeline");
+        
+        addEducationBtn.addEventListener("click", function() {
+          educationModal.classList.add("active");
+        });
+        
+        closeEducationModal.addEventListener("click", function() {
+          educationModal.classList.remove("active");
+        });
+        
+        educationForm.addEventListener("submit", function(e) {
+          e.preventDefault();
+          
+          const title = document.getElementById("educationTitle").value;
+          const date = document.getElementById("educationDate").value;
+          const description = document.getElementById("educationDescription").value;
+          
+          // Create new timeline item
+          const newItem = document.createElement("div");
+          newItem.className = "timeline-item";
+          newItem.innerHTML = `
+            <div class="date">${date}</div>
+            <div class="timeline-content neon-border">
+              <h3>${title}</h3>
+              <p>${description}</p>
+            </div>
+          `;
+          
+          // Add new item to timeline
+          timelineContainer.appendChild(newItem);
+          
+          // Close modal and reset form
+          educationModal.classList.remove("active");
+          educationForm.reset();
+          
+          // Apply animation to new item
+          setTimeout(() => {
+            newItem.classList.add("fade-in");
+          }, 100);
+        });
+        
+        // Project Modal Functions
+        const addProjectBtn = document.getElementById("addProjectBtn");
+        const projectModal = document.getElementById("projectModal");
+        const closeProjectModal = document.getElementById("closeProjectModal");
+        const projectForm = document.getElementById("projectForm");
+        const projectContainer = document.querySelector(".box-container");
+        
+        addProjectBtn.addEventListener("click", function() {
+          projectModal.classList.add("active");
+        });
+        
+        closeProjectModal.addEventListener("click", function() {
+          projectModal.classList.remove("active");
+        });
+        
+        projectForm.addEventListener("submit", function(e) {
+          e.preventDefault();
+          
+          const name = document.getElementById("projectName").value;
+          const imageFile = document.getElementById("projectImage").files[0];
+          const description = document.getElementById("projectDescription").value;
+          const path = document.getElementById("projectPath").value;
+          const source = document.getElementById("projectSource").value;
+          const type = document.getElementById("projectType").value;
+          
+          // Create image URL from the selected file
+          let imageURL = '';
+          if (imageFile) {
+            imageURL = URL.createObjectURL(imageFile);
+          }
+          
+          // Create new project box
+          const newProject = document.createElement("div");
+          newProject.className = "box";
+          newProject.innerHTML = `
+            <img src="${imageURL}" alt="${name}" />
+            <div class="overlay">
+              <h4>${type}</h4>
+            </div>
+            <div class="content">
+              <h3>${name}</h3>
+              <p>${description}</p>
+              <a href="${path}" class="btn">View</a>
+              <a href="${source}" class="btn secondary">Source</a>
+            </div>
+          `;
+          
+          // Add new project to container
+          projectContainer.appendChild(newProject);
+          
+          // Close modal and reset form
+          projectModal.classList.remove("active");
+          projectForm.reset();
+          
+          // Apply animation to new project
+          setTimeout(() => {
+            newProject.style.opacity = "1";
+            newProject.style.transform = "translateY(0)";
+          }, 100);
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener("click", function(e) {
+          if (e.target === educationModal) {
+            educationModal.classList.remove("active");
+          }
+          if (e.target === projectModal) {
+            projectModal.classList.remove("active");
+          }
+        });
+        
+        // Network nodes click
+        const networkNodes = document.querySelectorAll(".network-node");
+        const sections = ["home", "about", "education", "projects", "services", "Reviews", "contact"];
+        
+        networkNodes.forEach((node, index) => {
+          if (index < sections.length) {
+            node.addEventListener("click", function() {
+              document.getElementById(sections[index]).scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+              });
+            });
+            
+            // Add tooltip with section name
+            const tooltip = document.createElement("div");
+            tooltip.className = "tooltip";
+            tooltip.style.position = "absolute";
+            tooltip.style.left = "35px";
+            tooltip.style.backgroundColor = "var(--dark-bg-lighter)";
+            tooltip.style.color = "var(--text-light)";
+            tooltip.style.padding = "5px 10px";
+            tooltip.style.borderRadius = "5px";
+            tooltip.style.opacity = "0";
+            tooltip.style.transition = "opacity 0.3s ease";
+            tooltip.style.pointerEvents = "none";
+            tooltip.style.whiteSpace = "nowrap";
+            tooltip.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
+            tooltip.textContent = sections[index].charAt(0).toUpperCase() + sections[index].slice(1);
+            
+            node.appendChild(tooltip);
+            
+            node.addEventListener("mouseenter", function() {
+              tooltip.style.opacity = "1";
+            });
+            
+            node.addEventListener("mouseleave", function() {
+              tooltip.style.opacity = "0";
+            });
+          }
+        });
       });
     </script>
   </body>
